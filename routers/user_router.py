@@ -9,9 +9,7 @@ from utils.cryp_manager import generate_encrypt
 from services.user_service import UserService
 from schemas.user_schema import UserSchema
 from schemas.user_login_schema import UserLoginSchema
-from config.database import Session, engine
-from sqlalchemy import MetaData, Table
-import datetime
+from config.database import Session
 
 user_router = APIRouter()
 
@@ -75,9 +73,6 @@ def update_user(user: UserSchema, id: int = Path(ge=1, le=2000)) -> dict:
         response_model=dict,
         dependencies=[Depends(JWTBearer())])
 def delete_user(id: int = Path(ge=1, le=2000)) -> dict:
-    metadata = MetaData(bind=engine)
-    mytable = Table('movies', metadata, autoload=True)
-    mytable.drop(engine)
     db = Session()
     is_deleted = UserService(db).delete_user(id)
     if not is_deleted:
