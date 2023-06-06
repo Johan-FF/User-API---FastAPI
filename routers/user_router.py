@@ -45,7 +45,7 @@ def get_users_by_nickname(nickname: str = Query(max_length=20)) -> List[UserSche
     result = UserService(db).get_user_by_nickname(nickname)
     return JSONResponse(status_code=200, content=jsonable_encoder[result])
 
-@user_router.post('/users',
+@user_router.post('/users/new_user',
         tags=['users'],
         response_model=dict,
         status_code=201)
@@ -53,7 +53,7 @@ def create_user(user: UserSchema) -> dict:
     db = Session()
     created = UserService(db).create_user(user)
     if not created:
-        return JSONResponse(status_code=200, content={"message":"user exists"})
+        return JSONResponse(status_code=200, content={"message":"UserError"})
     return JSONResponse(status_code=201, content={"message":"sucess"})
 
 @user_router.put('/users/{id}',
@@ -86,11 +86,11 @@ def login(user: UserLoginSchema):
     db = Session()
     result = UserService(db).get_user_by_email(user.email)
     if not result:
-        return JSONResponse(status_code=404, content={"message":"email not found"})    
+        return JSONResponse(status_code=404, content={"message":"EmailError"})    
 
     confirm_password: str = generate_encrypt(user.password)
     if checkpw(result.password, confirm_password):
-        return JSONResponse(status_code=404, content={"message":"invalid password"})
+        return JSONResponse(status_code=404, content={"message":"PasswordError"})
 
     token = create_token(user.dict())
     return JSONResponse(status_code=200, content={"message":token, "id":result.id})
