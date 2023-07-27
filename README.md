@@ -64,3 +64,9 @@ Include the obtained JWT token in the Authorization header for all subsequent re
 
 This project can work in conjunction with the repository: [https://github.com/Johan-FF/Paint-Project---Angular-js.git](https://github.com/Johan-FF/Paint-Project---Angular-js.git)
 This will allow logging in and drawing in the user interface of the other repository.
+
+## Contributing
+
+Contributions are welcome! If you find any bugs or want to add new features, feel free to open an issue or submit a pull request.
+
+Before submitting a pull request, please ensure that the tests pass and the code complies with the project's coding standards.
